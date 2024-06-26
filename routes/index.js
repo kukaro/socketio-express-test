@@ -19,15 +19,17 @@ server.listen(3100, () => {
 
 
 io.on('connection', function (socket) {
-    var instanceId = socket.id;
+    const instanceId = socket.id;
     socket.on('msg', function (data) {
+        console.log('#ON MSG');
         console.log(data);
         socket.emit('recMsg', {comment: instanceId + ":" + data.comment + '\n'});
     })
     socket.on('join', (data) => {
+        console.log('#ON JOIN');
         console.log(data);
-        socket.join(data.room);
-        io.to(data.room).emit('recMsg', {comment: instanceId + ":" + data.comment + '\n'});
+        socket.join(data.roomName);
+        io.to(data.roomName).emit('recMsg', {comment: instanceId + ":" + data.roomName + '\n'});
     })
 });
 

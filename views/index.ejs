@@ -10,22 +10,20 @@
 <input type="text" id="user"><input type="button" value="msg submit" onclick="myOnClick()">
 </body>
 <script>
-
-    const socket = io.connect('http://localhost:8081', {
+    const socket = io.connect('http://localhost:3100', {
         // cors: {origin: '*'}
     });
 
     socket.emit('join', {roomName: 'myroom'});
 
     socket.on('recMsg', function (data) {
-        console.log(data.comment)
         document.querySelector('#chat').value += data.comment + '\n';
     });
 
     function myOnClick() {
-
-        socket.emit("msg", {comment: document.querySelector('#chat').value});
-        document.querySelector('#chat').value = '';
+        const comment = document.querySelector('#user').value;
+        socket.emit("msg", {comment});
+        document.querySelector('#user').value = '';
     }
 </script>
 </html>
