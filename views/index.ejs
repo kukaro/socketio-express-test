@@ -13,16 +13,21 @@
     const socket = io.connect('http://localhost:3100', {
         // cors: {origin: '*'}
     });
+    const roomNames = ['myroom', 'yourroom'];
+    const roomName = (() => {
+        return roomNames[Math.floor(Math.random() * roomNames.length)]
+    })();
 
-    socket.emit('join', {roomName: 'myroom'});
+    socket.emit('join', {roomName});
 
     socket.on('recMsg', function (data) {
-        document.querySelector('#chat').value += data.comment + '\n';
+        document.querySelector('#chat').value += data.comment;
     });
 
     function myOnClick() {
         const comment = document.querySelector('#user').value;
-        socket.emit("msg", {comment});
+        // socket.emit("msg", {comment});
+        socket.emit("msg", {comment, roomName});
         document.querySelector('#user').value = '';
     }
 </script>
